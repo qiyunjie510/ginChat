@@ -1,0 +1,126 @@
+info:
+  contact: {}
+paths:
+  /api/user/delete:
+    get:
+      parameters:
+      - description: id
+        in: query
+        name: id
+        type: string
+      responses:
+        "200":
+          description: code","message"}
+          schema:
+            type: string
+      summary: 删除用户
+      tags:
+      - 用户模块
+  /api/user/list:
+    get:
+      responses:
+        "200":
+          description: code","message"}
+          schema:
+            type: string
+      summary: 用户列表
+      tags:
+      - 用户模块
+  /api/user/login:
+    post:
+      parameters:
+      - description: 用户名
+        in: formData
+        name: name
+        type: string
+      - description: 密码
+        in: formData
+        name: password
+        type: string
+      responses:
+        "200":
+          description: code","message"}
+          schema:
+            type: string
+      summary: 登录
+      tags:
+      - 登录模块
+  /api/user/register:
+    post:
+      parameters:
+      - description: 用户名
+        in: formData
+        name: name
+        type: string
+      - description: 手机号
+        in: formData
+        name: phone
+        type: string
+      - description: 密码
+        in: formData
+        name: password
+        type: string
+      - description: 确认密码
+        in: formData
+        name: real_password
+        type: string
+      responses:
+        "200":
+          description: code","message"}
+          schema:
+            type: string
+      summary: 用户注册
+      tags:
+      - 登录模块
+  /api/user/update:
+    post:
+      parameters:
+      - description: id
+        in: formData
+        name: id
+        type: string
+      - description: name
+        in: formData
+        name: name
+        type: string
+      - description: password
+        in: formData
+        name: password
+        type: string
+      - description: phone
+        in: formData
+        name: phone
+        type: string
+      - description: email
+        in: formData
+        name: email
+        type: string
+      responses:
+        "200":
+          description: code","message"}
+          schema:
+            type: string
+      summary: 修改用户
+      tags:
+      - 用户模块
+  /index:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 首页目前是登录
+      tags:
+      - 页面
+  /register:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 注册页面
+      tags:
+      - 页面
+swagger: "2.0"

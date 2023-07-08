@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes">
+    <title>聊天室</title>
+    <link rel="stylesheet" href="/asset/plugins/mui/css/mui.css" />
+    <link rel="stylesheet" href="/asset/css/login.css" />
+    <script src="../../asset/plugins/mui/js/mui.js"></script>
+    <script src="../../asset/js/vue.min.js"></script>
+    <script src="../../asset/js/util.js"></script>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+    <h1 class="mui-title">注册</h1>
+</header>
+<div class="mui-content" id="pageApp">
+    <form id="login-form" class="mui-input-group">
+        <div class="mui-input-row">
+            <label>昵称</label>
+            <input v-model="user.name" placeholder="请输入用户名" type="text" class="mui-input-clear">
+        </div>
+        <div class="mui-input-row">
+            <label>手机号</label>
+            <input v-model="user.phone" placeholder="请输入手机号" type="text" class="mui-input-clear">
+        </div>
+        <div class="mui-input-row">
+            <label>密码</label>
+            <input v-model="user.password" placeholder="请输入密码" type="password" class="mui-input-clear">
+        </div>
+        <div class="mui-input-row">
+            <label>确认密码</label>
+            <input v-model="user.real_password" placeholder="请再次输入密码" type="password" class="mui-input-clear">
+        </div>
+    </form>
+    <div class="mui-content-padded">
+        <button @click="login" type="button" class="mui-btn mui-btn-block mui-btn-primary">注册</button>
+        <div class="link-area"><a id="login" href="/index">返回登录</a><span class="spliter"> | </span><a id="forget" href="/forget">忘记密码</a>
+        </div> 
+    </div>
+    <div class="mui-content-padded oauth-area"></div>
+</div>
+</body>
+</html>
+<script>
+    let app = new Vue({
+        el:"#pageApp",
+        data:function(){
+            return {
+                user:{
+                    name:"",
+                    phone:"",
+                    password:"",
+                    real_password:""
+                }
+            }
+        },
+        methods:{
+            login:function (){
+                // 检测手机号是否正确
+                console.log("register")
+                // 检测密码是否为空
+                
+                util.post("api/user/register",this.user).then(
+                    res => {
+                        console.log(res)
+                        if(res.code !== 0){
+                            mui.toast(res.message)
+                        }else{
+                            location.replace("//127.0.0.1:8081/index")
+                            mui.toast("注册成功，欢迎登录")
+                        }
+                    }
+                )
+            }
+        }        
+    },)
+</script>
