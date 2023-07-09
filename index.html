@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {{template "/chat/head.shtml"}}
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes">
     <title>聊天室</title>
     <link rel="stylesheet" href="/asset/plugins/mui/css/mui.css" />
@@ -13,6 +14,7 @@
 <header class="mui-bar mui-bar-nav">
     <h1 class="mui-title">登录页面</h1>
 </header>
+{{.}}
 <div class="mui-content" id="pageApp">
     <form id="login-form" class="mui-input-group">
         <div class="mui-input-row">
@@ -57,6 +59,8 @@
                             mui.toast(res.message)
                         }else{
                             location.replace("//127.0.0.1:8081/toChat?id=" + res.data.ID + "&token=" +res.data.Identity)
+                            userInfo(res.data)
+                            userId(res.data.ID)
                             mui.toast("登录成功，即将跳转")
                         }
                     }
