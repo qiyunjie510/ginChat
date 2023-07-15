@@ -187,7 +187,7 @@ func dispatch(data []byte) {
 	fmt.Printf("msg的目标是：%d", msg.DstId)
 	switch msg.Cmd {
 	case 1: // 私信
-		sendMsg(msg.DstId, []byte(msg.Content))
+		sendMsg(msg.DstId, data)
 		// case 2: // 群发
 		// 	sendGroupMsg()
 		// case 3: // 广播

@@ -32,7 +32,7 @@
                     title:"",
                     doutu:{
                         config:{
-                            "baseurl":"/asset/plugins/doutu/",
+                            "baseurl":"asset/plugins/doutu/",
                             "pkgids":["mkgif","emoj"]
                         },
                         packages:[],
@@ -196,14 +196,15 @@
                         var res=[];
                         var config = this.doutu.config;
                         for(var i in config.pkgids){
-                            res[config.pkgids[i]]=(config.baseurl+"/"+config.pkgids[i]+"/info.json")
+                            res[config.pkgids[i]]=(config.baseurl+config.pkgids[i]+"/info.json")
                         }
                         var that = this;
                         for(var id in res){
                             //console.log("res[i]",id,res[id])
-                            post(res[id],{},function(pkginfo){
+                            this.$http.get(res[id]).then( response => {
+                                pkginfo = response.data
                                 //console.log("post res[i]",id,res[id],pkginfo)
-                                var baseurl= config.baseurl+"/"+pkginfo.id+"/"
+                                var baseurl= config.baseurl+pkginfo.id+"/"
                                 for(var j in pkginfo.assets){
                                     pkginfo.assets[j] = baseurl+pkginfo.assets[j];
                                 }
@@ -303,7 +304,7 @@
                         this.webSocket=new WebSocket(url);
                         //消息处理
                         this.webSocket.onmessage = function(evt){
-                            //{"data":"}",...}
+                            console.log("onmessage",evt.data)
                             if(evt.data.indexOf("}")>-1){
                                 this.onmessage(JSON.parse(evt.data));
                             }else{

@@ -14,7 +14,7 @@
 		
 		<!--dstid>TargetId  11=2  10=1 -->
 		<!-- v-if="(item.ismine? item.msg.TargetId==msgcontext.TargetId : item.msg.userId==msgcontext.TargetId )" -->
-        <li class="chat " :class="item.ismine?'mine':'other'" v-for="item in msglist" >
+        <li class="chat " :class="item.ismine?'mine':'other'" v-for="item in msglist" v-if="(item.ismine? item.msg.dstid==msgcontext.dstid : item.msg.userid==msgcontext.dstid )">
 <!--		v-if="item.msg.cmd==msgcontext.cmd -->
 <!--		&& (( item.msg.cmd==10 &&  (item.ismine? item.msg.dstid==msgcontext.dstid : item.msg.dstid==msgcontext.userid )) -->
 <!--		|| ( item.msg.cmd==11 &&  (item.msg.dstid==msgcontext.dstid))) ">-->

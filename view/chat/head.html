@@ -43,6 +43,7 @@
 <link rel="stylesheet" href="/asset/css/audio.css" />
 <script src="/asset/plugins/mui/js/mui.js" ></script>
 <script src="/asset/js/vue.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@^1.5.0/dist/vue-resource.min.js"></script>
 <script src="/asset/js/util.js" ></script>
 <script>
    function post(uri,data,fn){
@@ -64,7 +65,7 @@
                 }
                 xhr.send(_data.join("&"));
             }
-            function uploadfile(uri,dom,fn){
+   function uploadfile(uri,dom,fn){
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST","//"+location.host+"/"+uri, true);
                 // 添加http头，发送信息至服务器时内容编码类型
@@ -99,12 +100,12 @@
        formdata.append("file",blob)
        xhr.send(formdata);
    }
-       function uploadaudio(uri,blob,fn){
-                uploadblob(uri,blob,".mp3",fn)
-        }
-       function uploadvideo(uri,blob,fn){
-           uploadblob(uri,blob,".mp4",fn)
-       }
+   function uploadaudio(uri,blob,fn){
+            uploadblob(uri,blob,".mp3",fn)
+    }
+   function uploadvideo(uri,blob,fn){
+       uploadblob(uri,blob,".mp4",fn)
+   }
 </script>
 
 <style>
