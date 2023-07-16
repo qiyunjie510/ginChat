@@ -5,6 +5,7 @@ import (
 	"ginchat/models"
 	"ginchat/utils"
 	"net/http"
+	"strconv"
 	"sync"
 	"time"
 
@@ -82,4 +83,16 @@ func ChatV2(c *gin.Context) {
 func SearchFriends(c *gin.Context) {
 	users := models.SearchFriend(c.PostForm("userId"))
 	utils.RespOKList(c.Writer, users, len(users))
+}
+
+func AddFriend(c *gin.Context) {
+	userId, _ := strconv.Atoi(c.Request.FormValue("userid"))
+	targetId, _ := strconv.Atoi(c.Request.FormValue("dstid"))
+	code := models.AddFriend(uint(userId), uint(targetId))
+	if code {
+		utils.RespOK(c.Writer, code, "添加好友成功")
+		return
+	}
+	utils.RespFail(c.Writer, "添加好友失败")
+	return
 }

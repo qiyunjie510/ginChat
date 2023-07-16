@@ -3,6 +3,7 @@ package router
 import (
 	"ginchat/controller"
 	"ginchat/docs"
+	"ginchat/service"
 
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
@@ -31,6 +32,8 @@ func Router() *gin.Engine {
 	r.POST("/api/user/register", controller.Register)
 	r.POST("/api/user/update", controller.UpdateUser)
 	r.GET("/api/user/delete", controller.DeleteUser)
+	r.POST("/attach/upload", service.Upload)
+	r.POST("/contact/addfriend", controller.AddFriend)
 
 	//
 	r.POST("/api/searchFriends", controller.SearchFriends)

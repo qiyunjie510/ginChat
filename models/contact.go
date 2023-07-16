@@ -31,3 +31,19 @@ func SearchFriend(userId string) []UserBasic {
 	utils.DB.Where("id in (?)", objIds).Find(&users)
 	return users
 }
+
+func AddFriend(userId uint, targetId uint) bool {
+	user := UserBasic{}
+	if targetId != 0 {
+		utils.DB.Where("id = ?", targetId).First(&user)
+		if user.ID == 0 {
+			contract := Contact{}
+			contract.OwnerId = userId
+			contract.TargetId = targetId
+			contract.Type = 1
+			utils.DB.Create(&contract)
+			return true
+		}
+	}
+	return false
+}
