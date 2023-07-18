@@ -25,6 +25,7 @@ func Router() *gin.Engine {
 	r.GET("/index", controller.GetIndex)
 	r.GET("/register", controller.GetRegister)
 	r.GET("/toChat", controller.ToChat)
+	r.GET("/community", controller.GetCommunity)
 
 	// 用户模块
 	r.GET("/api/user/list", controller.List)
@@ -34,6 +35,7 @@ func Router() *gin.Engine {
 	r.GET("/api/user/delete", controller.DeleteUser)
 	r.POST("/attach/upload", service.Upload)
 	r.POST("/contact/addfriend", controller.AddFriend)
+	r.POST("/contact/createcommunity", controller.CreateCommunity)
 
 	//
 	r.POST("/api/searchFriends", controller.SearchFriends)

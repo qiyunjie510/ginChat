@@ -42,6 +42,18 @@ func GetRegister(c *gin.Context) {
 	}
 }
 
+func GetCommunity(c *gin.Context) {
+	ind, err := template.ParseFiles("view/chat/createcom.html", "view/chat/head.html")
+	if err != nil {
+		fmt.Print(err)
+		panic(err)
+	}
+	err = ind.Execute(c.Writer, "createcom")
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
 func ToChat(c *gin.Context) {
 	ind, err := template.ParseFiles(
 		"view/chat/index.html",
@@ -51,7 +63,8 @@ func ToChat(c *gin.Context) {
 		"view/chat/group.html",
 		"view/chat/profile.html",
 		"view/chat/main.html",
-		"view/chat/foot.html")
+		"view/chat/foot.html",
+		"view/chat/createcom.html")
 	if err != nil {
 		fmt.Print(err)
 		panic(err)
