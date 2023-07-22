@@ -1,72 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {{template "/chat/head.shtml"}}
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes">
-    <title>聊天室</title>
-    <link rel="stylesheet" href="/asset/plugins/mui/css/mui.css" />
-    <link rel="stylesheet" href="/asset/css/login.css" />
-    <script src="asset/plugins/mui/js/mui.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-resource@^1.5.0/dist/vue-resource.min.js"></script>
-    <script src="asset/js/vue.min.js"></script>
-    <script src="asset/js/util.js"></script>
+  {{template "/chat/head.shtml"}}
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes">
+  <title>聊天室</title>
+  <link rel="stylesheet" href="/asset/plugins/mui/css/mui.css" />
+  <link rel="stylesheet" href="/asset/css/login.css" />
+  <script src="asset/plugins/mui/js/mui.js"></script>
+  <script src="asset/js/vue-resource-1.5.3.js"></script>
+  <script src="asset/js/vue.min.js"></script>
+  <script src="asset/js/util.js"></script>
 </head>
 <body>
 <header class="mui-bar mui-bar-nav">
-    <h1 class="mui-title">登录页面</h1>
+  <h1 class="mui-title">渣渣聊天室</h1>
 </header>
-{{.}}
 <div class="mui-content" id="pageApp">
-    <form id="login-form" class="mui-input-group">
-        <div class="mui-input-row">
-            <label>账号</label>
-            <input v-model="user.name" placeholder="请输入用户名" type="text" class="mui-input-clear">
-        </div>
-        <div class="mui-input-row">
-            <label>密码</label>
-            <input v-model="user.password" placeholder="请输入密码" type="password" class="mui-input-clear">
-        </div>
-    </form>
-    <div class="mui-content-padded">
-        <button @click="login" type="button" class="mui-btn mui-btn-block mui-btn-primary">登录</button>
-        <div class="link-area"><a id="register" href="/register">注册账号</a><span class="spliter"> | </span><a id="forget" href="/index">忘记密码</a>
-        </div> 
+  <div class="mui-content-padded">
+    <img src="asset/images/chat_room.png" class="mui-icon-image">
+    <label v-text="msg" class="mui-text-center"></label>
+    <button v-if="!isLogin" @click="login()" type="button" class="mui-btn mui-btn-block mui-btn-primary">去登录</button>
+    <button v-else="" @click="entry()" type="button" class="mui-btn mui-btn-block mui-btn-primary">进入直播间</button>
+    <div class="link-area"><a id="register" href="/register">注册账号</a><span class="splitter"> | </span><a id="forget" href="/index">忘记密码</a>
     </div>
-    <div class="mui-content-padded oauth-area"></div>
+  </div>
+  <div class="mui-content-padded oauth-area"></div>
 </div>
 </body>
 </html>
 <script>
-    let app = new Vue({
-        el:"#pageApp",
-        data:function(){
-            return {
-                user:{
-                    name:"",
-                    password:""
-                }
-            }
-        },
-        methods:{
-            login:function (){
-                // 检测手机号是否正确
-                console.log("login")
-                // 检测密码是否为空
-                
-                util.post("api/user/login",this.user).then(
-                    res => {
-                        console.log(res)
-                        if(res.code !== 0){
-                            mui.toast(res.message)
-                        }else{
-                            location.replace("//127.0.0.1:8081/toChat?id=" + res.data.ID + "&token=" +res.data.Identity)
-                            userInfo(res.data)
-                            userId(res.data.ID)
-                            mui.toast("登录成功，即将跳转")
-                        }
-                    }
-                )
-            }
-        }        
-    },)
+  let app = new Vue({
+    el:"#pageApp",
+    data:function(){
+      return {
+        msg:"",
+        isLogin : false,
+      }
+    },
+    created:function(){
+      user = userInfo();
+      if (user == null){
+        this.msg = "您还未登录，请先登录！";
+        this.isLogin = false;
+      }else{
+        this.msg = "您已登录，请进入直播间！";
+        this.isLogin = true;
+      }
+    },
+    methods:{
+      login:function (){
+        location.replace("/login")
+      },
+      entry:function (){
+        user = userInfo();
+        location.replace("/toChat?id=" + user.ID + "&token=" +user.Identity)
+      }
+    }
+  },)
 </script>

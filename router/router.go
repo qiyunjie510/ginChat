@@ -18,11 +18,13 @@ func Router() *gin.Engine {
 
 	// 静态资源
 	r.Static("/asset", "asset/")
+	r.StaticFile("/favicon.ico", "./favicon.ico")
 	r.LoadHTMLGlob("view/**/*")
 
 	// 页面
 	r.GET("/", controller.GetIndex)
 	r.GET("/index", controller.GetIndex)
+	r.GET("/login", controller.GetLogin)
 	r.GET("/register", controller.GetRegister)
 	r.GET("/toChat", controller.ToChat)
 	r.GET("/community", controller.GetCommunity)

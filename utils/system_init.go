@@ -58,7 +58,7 @@ const (
 	PublishKey = "websocket"
 )
 
-// 发布消息到redis
+// Publish 发布消息到redis
 func Publish(ctx context.Context, channel string, msg string) error {
 	var err error
 	fmt.Println("publish msg:", msg)

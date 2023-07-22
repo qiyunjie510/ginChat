@@ -19,7 +19,23 @@ func GetIndex(c *gin.Context) {
 	if err != nil {
 		panic(err)
 	}
-	err = ind.Execute(c.Writer, "index")
+	err = ind.Execute(c.Writer, nil)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+// GetLogin
+// @Tags 页面
+// @Summary 首页目前是登录
+// @Success 200 {string} welcome
+// @Router /login [get]
+func GetLogin(c *gin.Context) {
+	ind, err := template.ParseFiles("view/user/login.html", "view/chat/head.html")
+	if err != nil {
+		panic(err)
+	}
+	err = ind.Execute(c.Writer, nil)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -36,7 +52,7 @@ func GetRegister(c *gin.Context) {
 		fmt.Print(err)
 		panic(err)
 	}
-	err = ind.Execute(c.Writer, "register")
+	err = ind.Execute(c.Writer, nil)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -48,7 +64,7 @@ func GetCommunity(c *gin.Context) {
 		fmt.Print(err)
 		panic(err)
 	}
-	err = ind.Execute(c.Writer, "createcom")
+	err = ind.Execute(c.Writer, nil)
 	if err != nil {
 		fmt.Println(err)
 	}
