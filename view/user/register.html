@@ -66,8 +66,8 @@
                         if(res.code !== 0){
                             mui.toast(res.message)
                         }else{
-                            location.replace("//127.0.0.1:8081/index")
                             mui.toast("注册成功，欢迎登录")
+                            location.replace("/index")
                         }
                     }
                 )

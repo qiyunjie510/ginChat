@@ -113,3 +113,37 @@ func CreateCommunity(c *gin.Context) {
 	utils.RespOK(c.Writer, nil, "建群成功")
 	return
 }
+
+func JoinCommunity(c *gin.Context) {
+	ownerId, _ := strconv.Atoi(c.Request.FormValue("ownerid"))
+	name := c.Request.FormValue("name")
+	desc := c.Request.FormValue("desc")
+	community := models.Community{}
+	community.OwnerId = uint(ownerId)
+	community.Name = name
+	community.Desc = desc
+	err := models.CreateCommunity(community)
+	if err != nil {
+		utils.RespFail(c.Writer, err.Error())
+		return
+	}
+	utils.RespOK(c.Writer, nil, "建群成功")
+	return
+}
+
+func LoadCommunity(c *gin.Context) {
+	ownerId, _ := strconv.Atoi(c.Request.FormValue("ownerid"))
+	name := c.Request.FormValue("name")
+	desc := c.Request.FormValue("desc")
+	community := models.Community{}
+	community.OwnerId = uint(ownerId)
+	community.Name = name
+	community.Desc = desc
+	err := models.CreateCommunity(community)
+	if err != nil {
+		utils.RespFail(c.Writer, err.Error())
+		return
+	}
+	utils.RespOK(c.Writer, nil, "建群成功")
+	return
+}

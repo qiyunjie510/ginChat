@@ -128,7 +128,7 @@
                             mui.toast("请填写名称")
                             return
                         }
-                        post("contact/createcommunity",this.com,function(res){
+                        post("contact/createCommunity",this.com,function(res){
                             if(res.code==0){
                                 mui.toast("创建成功");
                             }else{

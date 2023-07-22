@@ -4,7 +4,7 @@
     <a class="mui-icon mui-icon-left-nav mui-pull-left" @tap="win='main'"></a>
     <h1 class="mui-title" v-text="title"></h1>
 </header>
-<div id="convo" data-from="Sonu Joshi">
+<div id="convo" data-from="chat">
 
     <ul class="chat-thread">
          <!--群聊且item.dstid=当前msgcontext.dstid
@@ -45,12 +45,10 @@
         <img src="/asset/images/kbord.png" />
     </div>
     <div class="item-2" v-if="txtstat=='kbord'">
-        <input placeholder="这里写点啥" class="text" type="text" v-model="txtmsg"/>
+        <input  v-model="txtmsg" placeholder="这里写点啥" class="text" type="text"/>
     </div>
     <div class="item-2" v-if="txtstat=='audio'">
         <input value="请按住说话" type="button" class="text" style="margin-top: 5px;width: 100%; text-align: center"  @touchstart="startrecorder" @touchend="stoprecorder">
-
-        </input>
     </div>
     <div class="item-3" @tap="panelstat='doutu'">
         <img src="/asset/images/smile.png" />

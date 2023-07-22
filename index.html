@@ -17,8 +17,7 @@
 </header>
 <div class="mui-content" id="pageApp">
   <div class="mui-content-padded">
-    <img src="asset/images/chat_room.png" class="mui-icon-image">
-    <label v-text="msg" class="mui-text-center"></label>
+    <img src="asset/images/chat_room.png" class="mui-icon-image mui-text-center">
     <button v-if="!isLogin" @click="login()" type="button" class="mui-btn mui-btn-block mui-btn-primary">去登录</button>
     <button v-else="" @click="entry()" type="button" class="mui-btn mui-btn-block mui-btn-primary">进入直播间</button>
     <div class="link-area"><a id="register" href="/register">注册账号</a><span class="splitter"> | </span><a id="forget" href="/index">忘记密码</a>
@@ -40,20 +39,20 @@
     created:function(){
       user = userInfo();
       if (user == null){
-        this.msg = "您还未登录，请先登录！";
+        mui.toast("您还未登录，请先登录！");
         this.isLogin = false;
       }else{
-        this.msg = "您已登录，请进入直播间！";
+        mui.toast("您已登录，请进入直播间！");
         this.isLogin = true;
       }
     },
     methods:{
       login:function (){
-        location.replace("/login")
+        location.href="/login"
       },
       entry:function (){
         user = userInfo();
-        location.replace("/toChat?id=" + user.ID + "&token=" +user.Identity)
+        location.href="/toChat?id=" + user.ID + "&token=" +user.Identity
       }
     }
   },)

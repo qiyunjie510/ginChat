@@ -26,6 +26,67 @@
             }
         }
 
+        function post(uri, data, fn) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "//" + location.host + "/" + uri, true);
+            // 添加http头，发送信息至服务器时内容编码类型
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 304)) {
+                    fn.call(this, JSON.parse(xhr.responseText));
+                }
+            };
+            var _data = [];
+            for (var i in data) {
+                _data.push(i + "=" + encodeURI(data[i]));
+            }
+            xhr.send(_data.join("&"));
+        }
+
+        function uploadfile(uri, dom, fn) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "//" + location.host + "/" + uri, true);
+            // 添加http头，发送信息至服务器时内容编码类型
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 304)) {
+                    fn.call(this, JSON.parse(xhr.responseText));
+                }
+            };
+            var _data = [];
+            var formdata = new FormData();
+            if (!!userId()) {
+                formdata.append("userid", userId());
+            }
+            formdata.append("file", dom.files[0])
+            xhr.send(formdata);
+        }
+
+        function uploadblob(uri, blob, filetype, fn) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "//" + location.host + "/" + uri, true);
+            // 添加http头，发送信息至服务器时内容编码类型
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 304)) {
+                    fn.call(this, JSON.parse(xhr.responseText));
+                }
+            };
+            var _data = [];
+            var formdata = new FormData();
+            formdata.append("filetype", filetype);
+            if (!!userId()) {
+                formdata.append("userid", userId());
+            }
+            formdata.append("file", blob)
+            xhr.send(formdata);
+        }
+
+        function uploadaudio(uri, blob, fn) {
+            uploadblob(uri, blob, ".mp3", fn)
+        }
+
+        function uploadvideo(uri, blob, fn) {
+            uploadblob(uri, blob, ".mp4", fn)
+        }
     </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">

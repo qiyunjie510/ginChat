@@ -36,8 +36,10 @@ func Router() *gin.Engine {
 	r.POST("/api/user/update", controller.UpdateUser)
 	r.GET("/api/user/delete", controller.DeleteUser)
 	r.POST("/attach/upload", service.Upload)
-	r.POST("/contact/addfriend", controller.AddFriend)
-	r.POST("/contact/createcommunity", controller.CreateCommunity)
+	r.POST("/contact/addFriend", controller.AddFriend)
+	r.POST("/contact/createCommunity", controller.CreateCommunity)
+	r.POST("contact/joinCommunity", controller.JoinCommunity)
+	r.POST("/contact/loadCommunity", controller.LoadCommunity)
 
 	//
 	r.POST("/api/searchFriends", controller.SearchFriends)
