@@ -293,11 +293,11 @@
                         this.msgcontext.cmd = 1;
                     },
                     groupmsg: function (group) {
-
                         this.win = "group";
-                        this.title = group.name;
-                        this.msgcontext.dstid = parseInt(group.id);
+                        this.title = group.Desc;
+                        this.msgcontext.dstid = parseInt(group.ID);
                         this.msgcontext.cmd = 11;
+                        this.webSocket.send(JSON.stringify(msg))
                     },
                     loaduserinfo: function (userid, cb) {
                         userid = "" + userid;
@@ -390,19 +390,19 @@
                             }
                         })
                     },
-                    _joincomunity: function (dstobj) {
+                    _joinCommunity: function (dstobj) {
                         var that = this;
                         post("contact/joinCommunity", {dstid: dstobj, "userid": userId()}, function (res) {
-                            if (res.code == 0) {
-                                mui.toast("添加成功");
+                            if (res.Code == 0) {
+                                mui.toast("加入群聊成功");
 
                                 that.loadcommunitys();
                             } else {
-                                mui.toast(res.msg);
+                                mui.toast(res.Msg);
                             }
                         })
                     },
-                    joincomunity: function () {
+                    joinCommunity: function () {
                         var that = this;
                         mui.prompt('', '请输入群号', '加群', ['取消', '确认'], function (e) {
                             if (e.index == 1) {
@@ -410,7 +410,7 @@
                                     mui.toast('格式错误');
                                 } else {
                                     //mui.toast(e.value);
-                                    that._joincomunity(e.value)
+                                    that._joinCommunity(e.value)
                                 }
                             } else {
                                 //mui.toast('您取消了入库');

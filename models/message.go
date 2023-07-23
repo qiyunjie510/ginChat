@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/gorilla/websocket"
 	"gopkg.in/fatih/set.v0"
@@ -85,7 +86,7 @@ func Chat(writer http.ResponseWriter, request *http.Request) {
 	// 发送逻辑
 	go sendProc(node)
 	// 接受逻辑
-	go recvProc(node)
+	go receiveProc(node)
 
 	sendMsg(userId, []byte("欢迎来到聊天室"))
 
@@ -107,7 +108,7 @@ func sendProc(node *Node) {
 }
 
 // 从客户端接受消息
-func recvProc(node *Node) {
+func receiveProc(node *Node) {
 	for {
 		_, data, err := node.Conn.ReadMessage()
 		if err != nil {
@@ -130,7 +131,7 @@ func init() {
 	go udpReceiveProc()
 }
 
-// 完成udp数据发送协程
+// 从广播中拿到数据，然后发送数据到udp
 func udpSendProc() {
 	conn, err := net.DialUDP("udp", nil, &net.UDPAddr{
 		IP:   net.IPv4(127, 0, 0, 1),
@@ -188,21 +189,42 @@ func dispatch(data []byte) {
 	switch msg.Cmd {
 	case 1: // 私信
 		sendMsg(msg.DstId, data)
-		// case 2: // 群发
-		// 	sendGroupMsg()
+	case 11: // 群发
+		err := sendGroupMsg(data)
+		if err != nil {
+			fmt.Println("发送群消息失败")
+		}
 		// case 3: // 广播
 		// 	sendAllMsg()
 		// default
 	}
 }
 
-func sendMsg(userId int64, msg []byte) {
+func sendMsg(userId int64, data []byte) {
 	rwLocker.Lock()
 	node, ok := clientMap[userId]
 	fmt.Printf("send to %d\n", userId)
 	rwLocker.Unlock()
 	if ok {
 		fmt.Println("sendMsg done")
-		node.DataQueue <- msg
+		node.DataQueue <- data
 	}
+}
+
+func sendGroupMsg(data []byte) error {
+	// 通过群，查到群里面的人，依次给每一个人发送消息
+	message := MessageV2{}
+	err := json.Unmarshal(data, &message)
+	if err != nil {
+		return errors.New("解析消息失败")
+	}
+	groupId := message.DstId
+	contactList, err := getGroupNumberList(uint(groupId))
+	if err != nil {
+		return errors.New("加载群成员列表失败")
+	}
+	for _, contact := range contactList {
+		sendMsg(int64(contact.OwnerId), data)
+	}
+	return nil
 }

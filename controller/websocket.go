@@ -115,35 +115,31 @@ func CreateCommunity(c *gin.Context) {
 }
 
 func JoinCommunity(c *gin.Context) {
-	ownerId, _ := strconv.Atoi(c.Request.FormValue("ownerid"))
-	name := c.Request.FormValue("name")
-	desc := c.Request.FormValue("desc")
-	community := models.Community{}
-	community.OwnerId = uint(ownerId)
-	community.Name = name
-	community.Desc = desc
-	err := models.CreateCommunity(community)
+	ownerId, _ := strconv.Atoi(c.Request.FormValue("userid"))
+	dstId, _ := strconv.Atoi(c.Request.FormValue("dstid"))
+	if dstId == 0 || ownerId == 0 {
+		utils.RespFail(c.Writer, "参数不合法")
+		return
+	}
+	err := models.JoinCommunity(uint(ownerId), uint(dstId))
 	if err != nil {
 		utils.RespFail(c.Writer, err.Error())
 		return
 	}
-	utils.RespOK(c.Writer, nil, "建群成功")
+	utils.RespOK(c.Writer, nil, "加入群成功")
 	return
 }
 
 func LoadCommunity(c *gin.Context) {
-	ownerId, _ := strconv.Atoi(c.Request.FormValue("ownerid"))
-	name := c.Request.FormValue("name")
-	desc := c.Request.FormValue("desc")
-	community := models.Community{}
-	community.OwnerId = uint(ownerId)
-	community.Name = name
-	community.Desc = desc
-	err := models.CreateCommunity(community)
+	ownerId, _ := strconv.Atoi(c.Request.FormValue("userid"))
+	contract := models.Contact{}
+	contract.OwnerId = uint(ownerId)
+	contract.Type = 2
+	list, err := models.LoadCommunity(contract)
 	if err != nil {
 		utils.RespFail(c.Writer, err.Error())
 		return
 	}
-	utils.RespOK(c.Writer, nil, "建群成功")
+	utils.RespOKList(c.Writer, list, len(list))
 	return
 }
