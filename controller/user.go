@@ -131,3 +131,13 @@ func Register(c *gin.Context) {
 	models.CreateUser(user)
 	utils.Success(c, "新增用户成功", user)
 }
+
+func Find(c *gin.Context) {
+	ID, err := strconv.Atoi(c.PostForm("id"))
+	if err != nil {
+		utils.Error(c, common.ERROR, "参数错误", nil)
+		return
+	}
+	user := models.FindUserByID(uint(ID))
+	utils.Success(c, "登录成功", user)
+}

@@ -303,7 +303,7 @@
                         userid = "" + userid;
                         var userinfo = this.usermap[userid];
                         if (!userinfo) {
-                            post("user/find", {id: parseInt(userid)}, function (res) {
+                            post("api/user/find", {id: parseInt(userid)}, function (res) {
                                 cb(res.data);
                                 this.usermap[userid] = res.data;
                             }.bind(this))
@@ -312,7 +312,6 @@
                         }
                     },
                     onmessage: function (data) {
-
                         this.loaduserinfo(data.userid, function (user) {
                             this.showmsg(user, data)
                         }.bind(this))

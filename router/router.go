@@ -31,6 +31,7 @@ func Router() *gin.Engine {
 
 	// 用户模块
 	r.GET("/api/user/list", controller.List)
+	r.POST("/api/user/find", controller.Find)
 	r.POST("/api/user/login", controller.Login)
 	r.POST("/api/user/register", controller.Register)
 	r.POST("/api/user/update", controller.UpdateUser)
