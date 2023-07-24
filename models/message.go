@@ -190,7 +190,7 @@ func dispatch(data []byte) {
 	case 1: // 私信
 		sendMsg(msg.DstId, data)
 	case 11: // 群发
-		err := sendGroupMsg(data)
+		err := sendGroupMsg(msg.UserId, data)
 		if err != nil {
 			fmt.Println("发送群消息失败")
 		}
@@ -211,7 +211,7 @@ func sendMsg(userId int64, data []byte) {
 	}
 }
 
-func sendGroupMsg(data []byte) error {
+func sendGroupMsg(userId int64, data []byte) error {
 	// 通过群，查到群里面的人，依次给每一个人发送消息
 	message := MessageV2{}
 	err := json.Unmarshal(data, &message)
@@ -224,6 +224,9 @@ func sendGroupMsg(data []byte) error {
 		return errors.New("加载群成员列表失败")
 	}
 	for _, contact := range contactList {
+		if contact.OwnerId == uint(userId) {
+			continue
+		}
 		sendMsg(int64(contact.OwnerId), data)
 	}
 	return nil

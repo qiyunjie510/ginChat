@@ -100,7 +100,7 @@ func AddFriend(c *gin.Context) {
 func CreateCommunity(c *gin.Context) {
 	ownerId, _ := strconv.Atoi(c.Request.FormValue("ownerid"))
 	name := c.Request.FormValue("name")
-	desc := c.Request.FormValue("desc")
+	desc := c.Request.FormValue("memo")
 	community := models.Community{}
 	community.OwnerId = uint(ownerId)
 	community.Name = name

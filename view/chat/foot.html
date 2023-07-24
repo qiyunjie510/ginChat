@@ -297,7 +297,6 @@
                         this.title = group.Desc;
                         this.msgcontext.dstid = parseInt(group.ID);
                         this.msgcontext.cmd = 11;
-                        this.webSocket.send(JSON.stringify(msg))
                     },
                     loaduserinfo: function (userid, cb) {
                         userid = "" + userid;
